@@ -724,33 +724,6 @@ export default function ModulesScreen() {
       {renderHeader()}
       {renderSearchAndFilters()}
       
-      {/* Debug banners for lesson management */}
-      {lessons.length === 0 && !lessonsLoading && (
-        <View style={{ backgroundColor: '#ff6b6b', padding: 10, margin: 10, borderRadius: 5 }}>
-          <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
-            DEBUG: No lessons loaded from lesson management system!
-          </Text>
-        </View>
-      )}
-      
-      {lessons.length > 0 && (
-        <View style={{ backgroundColor: '#4ecdc4', padding: 10, margin: 10, borderRadius: 5 }}>
-          <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
-            DEBUG: {lessons.length} lessons loaded from lesson management system!
-          </Text>
-          <Text style={{ color: 'white', textAlign: 'center', fontSize: 12, marginTop: 5 }}>
-            Lessons: {lessons.slice(0, 3).map(l => l.title).join(', ')}...
-          </Text>
-        </View>
-      )}
-      
-      {lessonsLoading && (
-        <View style={{ backgroundColor: '#ffa500', padding: 10, margin: 10, borderRadius: 5 }}>
-          <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold' }}>
-            DEBUG: Loading lessons from lesson management system...
-          </Text>
-        </View>
-      )}
       
       <ScrollView
         style={styles.scrollView}
@@ -765,21 +738,11 @@ export default function ModulesScreen() {
         showsVerticalScrollIndicator={false}
       >
         {lessons.length > 0 ? (
-          <View>
-            <View style={{ backgroundColor: '#4ecdc4', padding: 15, margin: 10, borderRadius: 10 }}>
-              <Text style={{ color: 'white', textAlign: 'center', fontWeight: 'bold', fontSize: 16 }}>
-                📚 Lessons from Lesson Management System
-              </Text>
-              <Text style={{ color: 'white', textAlign: 'center', fontSize: 12, marginTop: 5 }}>
-                {lessons.length} lessons available
-              </Text>
+          lessons.map((lesson, index) => (
+            <View key={lesson._id}>
+              {renderModuleItem({ item: lesson, index: index })}
             </View>
-            {lessons.map((lesson, index) => (
-              <View key={lesson._id}>
-                {renderModuleItem({ item: lesson, index: index })}
-              </View>
-            ))}
-          </View>
+          ))
         ) : (
           renderEmptyState()
         )}
