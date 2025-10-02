@@ -114,14 +114,13 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
             console.log('=== CHILDREN DASHBOARD: Found lessons:', lessonsResponse.data.lessons.length);
             console.log('=== CHILDREN DASHBOARD: First lesson:', lessonsResponse.data.lessons[0]);
             
-            // Combine modules and lessons
-            const currentLessons = Array.isArray(lessons) ? lessons : [];
-            const newLessons = lessonsResponse.data.lessons;
-            const combinedLessons = [...currentLessons, ...newLessons];
+            // PRIORITIZE lesson management content - use lessons as primary source
+            const lessonManagementLessons = lessonsResponse.data.lessons;
             
-            console.log('=== CHILDREN DASHBOARD: Combined lessons:', combinedLessons.length);
-            setLessons(combinedLessons);
-            console.log('=== CHILDREN DASHBOARD: Lessons from lesson management stored');
+            console.log('=== CHILDREN DASHBOARD: Using lesson management as primary source');
+            console.log('=== CHILDREN DASHBOARD: Lesson management lessons:', lessonManagementLessons.length);
+            setLessons(lessonManagementLessons);
+            console.log('=== CHILDREN DASHBOARD: Lessons from lesson management set as primary content');
           }
         } catch (error) {
           console.error('=== CHILDREN DASHBOARD: Lessons API call failed:', error);
@@ -211,14 +210,13 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
               console.log('=== CHILDREN DASHBOARD: Found lessons (refresh):', lessonsResponse.data.lessons.length);
               console.log('=== CHILDREN DASHBOARD: First lesson (refresh):', lessonsResponse.data.lessons[0]);
               
-              // Combine modules and lessons
-              const currentLessons = Array.isArray(lessons) ? lessons : [];
-              const newLessons = lessonsResponse.data.lessons;
-              const combinedLessons = [...currentLessons, ...newLessons];
+              // PRIORITIZE lesson management content - use lessons as primary source (refresh)
+              const lessonManagementLessons = lessonsResponse.data.lessons;
               
-              console.log('=== CHILDREN DASHBOARD: Combined lessons (refresh):', combinedLessons.length);
-              setLessons(combinedLessons);
-              console.log('=== CHILDREN DASHBOARD: Lessons from lesson management stored (refresh)');
+              console.log('=== CHILDREN DASHBOARD: Using lesson management as primary source (refresh)');
+              console.log('=== CHILDREN DASHBOARD: Lesson management lessons (refresh):', lessonManagementLessons.length);
+              setLessons(lessonManagementLessons);
+              console.log('=== CHILDREN DASHBOARD: Lessons from lesson management set as primary content (refresh)');
             }
           } catch (error) {
             console.error('=== CHILDREN DASHBOARD: Lessons API call failed (refresh):', error);
@@ -502,7 +500,7 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
       >
         <View style={styles.sectionHeader}>
           <Text style={[styles.sectionTitle, { color: theme.colors.text }]}>
-            Today's Lessons (From Lesson Management) - {lessons.length} lessons loaded
+            Admin Lesson Management Content - {lessons.length} lessons loaded
           </Text>
           <TouchableOpacity onPress={() => navigation.navigate('Modules')}>
             <Text style={[styles.seeAllText, { color: theme.colors.primary }]}>See All</Text>
