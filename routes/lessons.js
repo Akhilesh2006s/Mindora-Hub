@@ -159,6 +159,66 @@ router.get('/fast', (req, res) => {
   });
 });
 
+// @route   GET /api/lessons/check-videos
+// @desc    Check video data in lessons
+// @access  Public
+router.get('/check-videos', async (req, res) => {
+  try {
+    const lessons = await Lesson.find({}).select('title topics');
+    let videoStats = {
+      totalLessons: lessons.length,
+      lessonsWithTopics: 0,
+      topicsWithVideos: 0,
+      totalVideos: 0,
+      videoUrls: [],
+      brokenUrls: []
+    };
+    
+    lessons.forEach(lesson => {
+      if (lesson.topics && lesson.topics.length > 0) {
+        videoStats.lessonsWithTopics++;
+        
+        lesson.topics.forEach(topic => {
+          if (topic.videos && topic.videos.length > 0) {
+            videoStats.topicsWithVideos++;
+            videoStats.totalVideos += topic.videos.length;
+            
+            topic.videos.forEach(video => {
+              if (video.videoUrl) {
+                videoStats.videoUrls.push({
+                  lesson: lesson.title,
+                  topic: topic.title,
+                  video: video.title,
+                  url: video.videoUrl,
+                  isHttp: video.videoUrl.startsWith('http'),
+                  isUploads: video.videoUrl.startsWith('/uploads/')
+                });
+                
+                if (!video.videoUrl.startsWith('http') && !video.videoUrl.startsWith('/uploads/')) {
+                  videoStats.brokenUrls.push(video.videoUrl);
+                }
+              }
+            });
+          }
+        });
+      }
+    });
+    
+    res.json({
+      success: true,
+      message: 'Video data analysis complete',
+      data: videoStats
+    });
+  } catch (error) {
+    console.error('Error checking videos:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error while checking videos',
+      error: error.message
+    });
+  }
+});
+
 // @route   GET /api/lessons
 // @desc    Get all lessons
 // @access  Public
@@ -625,66 +685,6 @@ router.post('/:lessonId/topics/:topicId/quizzes', auth.authenticate, async (req,
     res.status(500).json({
       success: false,
       message: 'Server error while adding quiz to lesson topic',
-      error: error.message
-    });
-  }
-});
-
-// @route   GET /api/lessons/check-videos
-// @desc    Check video data in lessons
-// @access  Public
-router.get('/check-videos', async (req, res) => {
-  try {
-    const lessons = await Lesson.find({}).select('title topics');
-    let videoStats = {
-      totalLessons: lessons.length,
-      lessonsWithTopics: 0,
-      topicsWithVideos: 0,
-      totalVideos: 0,
-      videoUrls: [],
-      brokenUrls: []
-    };
-    
-    lessons.forEach(lesson => {
-      if (lesson.topics && lesson.topics.length > 0) {
-        videoStats.lessonsWithTopics++;
-        
-        lesson.topics.forEach(topic => {
-          if (topic.videos && topic.videos.length > 0) {
-            videoStats.topicsWithVideos++;
-            videoStats.totalVideos += topic.videos.length;
-            
-            topic.videos.forEach(video => {
-              if (video.videoUrl) {
-                videoStats.videoUrls.push({
-                  lesson: lesson.title,
-                  topic: topic.title,
-                  video: video.title,
-                  url: video.videoUrl,
-                  isHttp: video.videoUrl.startsWith('http'),
-                  isUploads: video.videoUrl.startsWith('/uploads/')
-                });
-                
-                if (!video.videoUrl.startsWith('http') && !video.videoUrl.startsWith('/uploads/')) {
-                  videoStats.brokenUrls.push(video.videoUrl);
-                }
-              }
-            });
-          }
-        });
-      }
-    });
-    
-    res.json({
-      success: true,
-      message: 'Video data analysis complete',
-      data: videoStats
-    });
-  } catch (error) {
-    console.error('Error checking videos:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error while checking videos',
       error: error.message
     });
   }
