@@ -28,9 +28,10 @@ const lessonSchema = new mongoose.Schema({
     required: true,
     enum: ['6-15', '16+']
   },
-  topics: [{
-    type: mongoose.Schema.Types.Mixed // Allow any type of data for topics
-  }],
+  topics: {
+    type: [mongoose.Schema.Types.Mixed], // Allow any type of data for topics
+    default: []
+  },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
