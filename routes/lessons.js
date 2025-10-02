@@ -22,7 +22,6 @@ router.get('/', async (req, res) => {
     console.log('Lessons filter:', filter);
     
     const lessons = await Lesson.find(filter)
-      .populate('createdBy', 'name email')
       .sort({ createdAt: -1 });
     
     console.log(`Found ${lessons.length} lessons`);
@@ -48,8 +47,7 @@ router.get('/', async (req, res) => {
 // @access  Public
 router.get('/:id', async (req, res) => {
   try {
-    const lesson = await Lesson.findById(req.params.id)
-      .populate('createdBy', 'name email');
+    const lesson = await Lesson.findById(req.params.id);
     
     if (!lesson) {
       return res.status(404).json({
