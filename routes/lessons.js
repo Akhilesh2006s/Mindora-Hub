@@ -655,7 +655,15 @@ router.post('/:lessonId/topics/:topicId/videos', auth.authenticate, async (req, 
     console.log('🔍 Looking for topic ID:', topicIdNum, '(as number)');
     console.log('🔍 Available topics:', lesson.topics.map(t => ({ id: t.id, idType: typeof t.id, title: t.title })));
     
-    const topic = lesson.topics.find(t => t.id === topicId || t.id === topicIdNum || t.id === topicId.toString());
+    // Try multiple ways to find the topic
+    let topic = lesson.topics.find(t => t.id == topicId); // Loose equality
+    if (!topic) {
+      topic = lesson.topics.find(t => String(t.id) === String(topicId));
+    }
+    if (!topic) {
+      topic = lesson.topics.find(t => Number(t.id) === Number(topicId));
+    }
+    
     if (!topic) {
       console.log('❌ Topic not found. Looking for ID:', topicId);
       console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title })));
@@ -745,7 +753,15 @@ router.post('/:lessonId/topics/:topicId/quizzes', auth.authenticate, async (req,
     console.log('🔍 Looking for topic ID:', topicIdNum, '(as number)');
     console.log('🔍 Available topics:', lesson.topics.map(t => ({ id: t.id, idType: typeof t.id, title: t.title })));
     
-    const topic = lesson.topics.find(t => t.id === topicId || t.id === topicIdNum || t.id === topicId.toString());
+    // Try multiple ways to find the topic
+    let topic = lesson.topics.find(t => t.id == topicId); // Loose equality
+    if (!topic) {
+      topic = lesson.topics.find(t => String(t.id) === String(topicId));
+    }
+    if (!topic) {
+      topic = lesson.topics.find(t => Number(t.id) === Number(topicId));
+    }
+    
     if (!topic) {
       console.log('❌ Topic not found. Looking for ID:', topicId);
       console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title })));
