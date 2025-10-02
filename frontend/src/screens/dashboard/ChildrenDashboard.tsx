@@ -67,10 +67,29 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
         // ALSO fetch lessons from lesson management system
         try {
           console.log('=== CHILDREN DASHBOARD: Fetching lessons from lesson management ===');
-          const lessonsResponse = await apiService.get('/lessons');
-          console.log('=== CHILDREN DASHBOARD: Lessons response:', lessonsResponse);
           
-          if (lessonsResponse.success && lessonsResponse.data.lessons) {
+          // Try apiService first
+          let lessonsResponse;
+          try {
+            lessonsResponse = await apiService.get('/lessons');
+            console.log('=== CHILDREN DASHBOARD: ApiService response:', lessonsResponse);
+          } catch (apiError) {
+            console.log('=== CHILDREN DASHBOARD: ApiService failed, trying direct fetch:', apiError);
+            // Fallback to direct fetch
+            const directResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/lessons', {
+              headers: { 'Cache-Control': 'no-cache' }
+            });
+            const directData = await directResponse.json();
+            lessonsResponse = directData;
+            console.log('=== CHILDREN DASHBOARD: Direct fetch response:', lessonsResponse);
+          }
+          
+          console.log('=== CHILDREN DASHBOARD: Lessons response:', lessonsResponse);
+          console.log('=== CHILDREN DASHBOARD: Response success:', lessonsResponse.success);
+          console.log('=== CHILDREN DASHBOARD: Response data:', lessonsResponse.data);
+          console.log('=== CHILDREN DASHBOARD: Response data.lessons:', lessonsResponse.data?.lessons);
+          
+          if (lessonsResponse.success && lessonsResponse.data && lessonsResponse.data.lessons) {
             console.log('=== CHILDREN DASHBOARD: Found lessons:', lessonsResponse.data.lessons.length);
             console.log('=== CHILDREN DASHBOARD: First lesson:', lessonsResponse.data.lessons[0]);
             
@@ -81,9 +100,15 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
             console.log('=== CHILDREN DASHBOARD: Lesson management lessons:', lessonManagementLessons.length);
             setLessons(lessonManagementLessons);
             console.log('=== CHILDREN DASHBOARD: Lessons from lesson management set as primary content');
+          } else {
+            console.log('=== CHILDREN DASHBOARD: No lessons found or invalid response structure');
+            console.log('=== CHILDREN DASHBOARD: Setting empty lessons array');
+            setLessons([]);
           }
         } catch (error) {
           console.error('=== CHILDREN DASHBOARD: Lessons API call failed:', error);
+          console.log('=== CHILDREN DASHBOARD: Setting empty lessons array due to error');
+          setLessons([]);
         }
         
         // Call progress and achievements
