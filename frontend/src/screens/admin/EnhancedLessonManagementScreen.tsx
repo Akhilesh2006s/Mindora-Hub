@@ -640,6 +640,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
       const lessonData = {
         title: newLesson.title.trim(),
         description: newLesson.description.trim(),
+        category: 'general', // Add required category field
         difficulty: newLesson.difficulty,
         estimatedDuration: newLesson.estimatedDuration,
         ageRange: newLesson.ageRange
