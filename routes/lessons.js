@@ -648,14 +648,19 @@ router.post('/:lessonId/topics/:topicId/videos', auth.authenticate, async (req, 
       });
     }
     
-    // Find the topic
-    const topic = lesson.topics.find(t => t.id === req.params.topicId);
+    // Find the topic (convert topicId to number for comparison)
+    const topicId = parseInt(req.params.topicId);
+    const topic = lesson.topics.find(t => t.id === topicId);
     if (!topic) {
+      console.log('❌ Topic not found. Looking for ID:', topicId);
+      console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title })));
       return res.status(404).json({
         success: false,
         message: 'Topic not found'
       });
     }
+    
+    console.log('✅ Topic found:', topic.title);
     
     // Create new video object
     const newVideo = {
@@ -673,8 +678,13 @@ router.post('/:lessonId/topics/:topicId/videos', auth.authenticate, async (req, 
     }
     topic.videos.push(newVideo);
     
+    console.log('📹 Video added to topic. Topic videos count:', topic.videos.length);
+    console.log('📹 Topic videos:', topic.videos.map(v => ({ id: v.id, title: v.title })));
+    
     // Save the lesson
+    console.log('💾 Saving lesson to database...');
     await lesson.save();
+    console.log('✅ Lesson saved successfully');
     
     console.log('✅ Video added successfully:', newVideo);
     
@@ -723,14 +733,19 @@ router.post('/:lessonId/topics/:topicId/quizzes', auth.authenticate, async (req,
       });
     }
     
-    // Find the topic
-    const topic = lesson.topics.find(t => t.id === req.params.topicId);
+    // Find the topic (convert topicId to number for comparison)
+    const topicId = parseInt(req.params.topicId);
+    const topic = lesson.topics.find(t => t.id === topicId);
     if (!topic) {
+      console.log('❌ Topic not found. Looking for ID:', topicId);
+      console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title })));
       return res.status(404).json({
         success: false,
         message: 'Topic not found'
       });
     }
+    
+    console.log('✅ Topic found:', topic.title);
     
     // Create new quiz object
     const newQuiz = {
@@ -746,8 +761,13 @@ router.post('/:lessonId/topics/:topicId/quizzes', auth.authenticate, async (req,
     }
     topic.quizzes.push(newQuiz);
     
+    console.log('📝 Quiz added to topic. Topic quizzes count:', topic.quizzes.length);
+    console.log('📝 Topic quizzes:', topic.quizzes.map(q => ({ id: q.id, title: q.title })));
+    
     // Save the lesson
+    console.log('💾 Saving lesson to database...');
     await lesson.save();
+    console.log('✅ Lesson saved successfully');
     
     console.log('✅ Quiz added successfully:', newQuiz);
     
