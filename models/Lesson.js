@@ -14,7 +14,8 @@ const lessonSchema = new mongoose.Schema({
   difficulty: {
     type: String,
     required: true,
-    enum: ['Beginner', 'Intermediate', 'Advanced']
+    enum: ['Beginner', 'Intermediate', 'Advanced'],
+    default: 'Beginner'
   },
   estimatedDuration: {
     type: Number,

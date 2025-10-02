@@ -156,11 +156,22 @@ router.post('/save', auth.authenticate, async (req, res) => {
     const savedLessons = [];
     
     for (const lessonData of lessons) {
-      // Ensure age range is set to children
-      lessonData.ageRange = '6-15';
-      lessonData.createdBy = req.userId;
+      // Clean and validate lesson data
+      const cleanedLessonData = {
+        title: lessonData.title,
+        description: lessonData.description,
+        difficulty: lessonData.difficulty ? lessonData.difficulty.charAt(0).toUpperCase() + lessonData.difficulty.slice(1).toLowerCase() : 'Beginner',
+        estimatedDuration: lessonData.estimatedDuration || lessonData.duration || 30,
+        ageRange: '6-15',
+        createdBy: req.userId,
+        isActive: true,
+        // Remove topics for now since they're causing validation issues
+        // topics: [] // Will be added later when Topic model is properly set up
+      };
       
-      const newLesson = new Lesson(lessonData);
+      console.log('Cleaned lesson data:', cleanedLessonData);
+      
+      const newLesson = new Lesson(cleanedLessonData);
       await newLesson.save();
       savedLessons.push(newLesson);
       
