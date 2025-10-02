@@ -861,4 +861,27 @@ router.get('/fix-video-urls', auth.authenticate, async (req, res) => {
   }
 });
 
+// @route   GET /api/lessons/simple
+// @desc    Simple route to test lesson fetching
+// @access  Public
+router.get('/simple', async (req, res) => {
+  try {
+    const lessons = await Lesson.find({}).select('title description topics').limit(5);
+    res.json({
+      success: true,
+      message: 'Lessons fetched successfully',
+      data: {
+        lessons: lessons,
+        count: lessons.length
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Error fetching lessons',
+      error: error.message
+    });
+  }
+});
+
 module.exports = router;
