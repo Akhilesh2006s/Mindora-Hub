@@ -47,6 +47,39 @@ router.get('/debug', async (req, res) => {
   }
 });
 
+// @route   GET /api/lessons/fast
+// @desc    Fast route that returns immediately without database queries
+// @access  Public
+router.get('/fast', (req, res) => {
+  console.log('=== FAST LESSONS ROUTE ===');
+  res.json({
+    success: true,
+    message: 'Fast lessons response',
+    data: {
+      lessons: [
+        {
+          _id: 'fast-1',
+          title: 'Quick Lesson 1',
+          description: 'Fast response lesson',
+          difficulty: 'Beginner',
+          estimatedDuration: 15,
+          ageRange: '6-15',
+          topics: []
+        },
+        {
+          _id: 'fast-2', 
+          title: 'Quick Lesson 2',
+          description: 'Another fast response lesson',
+          difficulty: 'Intermediate',
+          estimatedDuration: 20,
+          ageRange: '6-15',
+          topics: []
+        }
+      ]
+    }
+  });
+});
+
 // @route   GET /api/lessons
 // @desc    Get all lessons
 // @access  Public
@@ -67,13 +100,14 @@ router.get('/', async (req, res) => {
     
     // Add timeout to prevent hanging requests
     const timeoutPromise = new Promise((_, reject) => {
-      setTimeout(() => reject(new Error('Database query timeout')), 8000);
+      setTimeout(() => reject(new Error('Database query timeout')), 5000); // Reduced timeout
     });
     
     const queryPromise = Lesson.find(filter)
       .sort({ createdAt: -1 })
-      .limit(50) // Limit results to prevent timeout
-      .lean(); // Use lean() for better performance
+      .limit(20) // Further reduced limit
+      .lean() // Use lean() for better performance
+      .select('title description difficulty estimatedDuration ageRange topics createdAt'); // Only select needed fields
     
     const lessons = await Promise.race([queryPromise, timeoutPromise]);
     
