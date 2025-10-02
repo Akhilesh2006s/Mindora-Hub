@@ -61,48 +61,8 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
       try {
         console.log('=== CHILDREN DASHBOARD: Fetching data ===');
         
-        // Fetch modules from the modules API
-        try {
-          console.log('=== CHILDREN DASHBOARD: Fetching modules ===');
-          const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/children-modules', {
-            headers: { 'Cache-Control': 'no-cache' }
-          });
-          const modulesData = await modulesResponse.json();
-          console.log('=== CHILDREN DASHBOARD: Modules response:', modulesData);
-          
-          if (modulesData.success) {
-            console.log('=== CHILDREN DASHBOARD: Found modules:', modulesData.data.modules.length);
-            console.log('=== CHILDREN DASHBOARD: First module:', modulesData.data.modules[0]);
-            
-            // Filter for specific module types you want to display
-            const desiredModuleTypes = ['finance', 'ai', 'math', 'brainstorming', 'soft-skills'];
-            const filteredModules = modulesData.data.modules.filter((module: any) => 
-              desiredModuleTypes.includes(module.moduleType)
-            );
-            
-            console.log('=== CHILDREN DASHBOARD: Filtered modules:', filteredModules.length);
-            console.log('=== CHILDREN DASHBOARD: Filtered modules:', filteredModules);
-            
-            // Log each filtered module for debugging
-            filteredModules.forEach((module, index) => {
-              console.log(`=== CHILDREN DASHBOARD: Module ${index}:`, {
-                id: module._id,
-                title: module.title,
-                moduleType: module.moduleType,
-                topicsCount: module.topics?.length || 0
-              });
-            });
-            
-            // Store modules in local state
-            setLessons(filteredModules);
-            console.log('=== CHILDREN DASHBOARD: Modules stored in local state');
-            
-            // Update Redux store with modules data
-            dispatch({ type: 'content/fetchModules/fulfilled', payload: modulesData });
-          }
-        } catch (error) {
-          console.error('=== CHILDREN DASHBOARD: Modules API call failed:', error);
-        }
+        // SKIP modules - only use lesson management content
+        console.log('=== CHILDREN DASHBOARD: Skipping modules, using only lesson management ===');
         
         // ALSO fetch lessons from lesson management system
         try {
@@ -160,45 +120,8 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
         try {
           console.log('=== CHILDREN DASHBOARD: Refreshing data on focus ===');
           
-          // Fetch modules from the modules API instead of lessons
-          try {
-            console.log('=== CHILDREN DASHBOARD: Fetching modules (refresh) ===');
-            const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/children-modules', {
-            headers: { 'Cache-Control': 'no-cache' }
-          });
-            const modulesData = await modulesResponse.json();
-            console.log('=== CHILDREN DASHBOARD: Modules response (refresh):', modulesData);
-            
-            if (modulesData.success) {
-              console.log('=== CHILDREN DASHBOARD: Found modules (refresh):', modulesData.data.modules.length);
-              
-              // Filter for specific module types you want to display
-              const desiredModuleTypes = ['finance', 'ai', 'math', 'brainstorming', 'soft-skills'];
-              const filteredModules = modulesData.data.modules.filter((module: any) => 
-                desiredModuleTypes.includes(module.moduleType)
-              );
-              
-              console.log('=== CHILDREN DASHBOARD: Filtered modules (refresh):', filteredModules.length);
-              
-              // Log each filtered module for debugging
-              filteredModules.forEach((module, index) => {
-                console.log(`=== CHILDREN DASHBOARD: Module ${index} (refresh):`, {
-                  id: module._id,
-                  title: module.title,
-                  moduleType: module.moduleType,
-                  topicsCount: module.topics?.length || 0
-                });
-              });
-              
-              // Store modules in local state
-              setLessons(filteredModules);
-              
-              // Update Redux store with fresh modules data
-              dispatch({ type: 'content/fetchModules/fulfilled', payload: modulesData });
-            }
-          } catch (error) {
-            console.error('=== CHILDREN DASHBOARD: Modules API call failed (refresh):', error);
-          }
+          // SKIP modules - only use lesson management content (refresh)
+          console.log('=== CHILDREN DASHBOARD: Skipping modules (refresh), using only lesson management ===');
           
           // ALSO fetch lessons from lesson management system (refresh)
           try {
