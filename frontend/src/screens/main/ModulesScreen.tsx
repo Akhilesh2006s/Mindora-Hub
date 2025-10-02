@@ -93,33 +93,32 @@ export default function ModulesScreen() {
       console.log('=== MODULES SCREEN: Loading modules from modules API ===');
       setLessonsLoading(true);
       
-      // Load modules from the modules API instead of lessons
-      const lessonsResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/modules?ageRange=6-15');
-      const lessonsData = await lessonsResponse.json();
+      // Load lessons from lesson management system
+      const lessonsResponse = await apiService.get('/lessons');
       
-      console.log('=== MODULES SCREEN: Modules response:', lessonsData);
+      console.log('=== MODULES SCREEN: Lessons response:', lessonsResponse);
       
-      if (lessonsData.success) {
-        console.log('=== MODULES SCREEN: Found modules:', lessonsData.data.modules.length);
-        setLessons(lessonsData.data.modules);
+      if (lessonsResponse.success && lessonsResponse.data.lessons) {
+        console.log('=== MODULES SCREEN: Found lessons:', lessonsResponse.data.lessons.length);
+        setLessons(lessonsResponse.data.lessons);
         
         // Also update Redux for compatibility
         const modulesData = {
-          modules: lessonsData.data.modules.map(module => ({
-            _id: module._id,
-            title: module.title,
-            description: module.description,
-            difficulty: module.difficulty,
-            ageRange: module.ageRange,
-            estimatedDuration: module.estimatedDuration,
-            topics: module.topics || [],
-            createdAt: module.createdAt,
-            status: module.status || 'published'
+          modules: lessonsResponse.data.lessons.map(lesson => ({
+            _id: lesson._id,
+            title: lesson.title,
+            description: lesson.description,
+            difficulty: lesson.difficulty,
+            ageRange: lesson.ageRange,
+            estimatedDuration: lesson.estimatedDuration,
+            topics: lesson.topics || [],
+            createdAt: lesson.createdAt,
+            status: lesson.isActive ? 'published' : 'draft'
           })),
           pagination: {
             currentPage: 1,
             totalPages: 1,
-            totalCount: lessonsData.data.modules.length,
+            totalCount: lessonsResponse.data.lessons.length,
             hasNextPage: false,
             hasPrevPage: false
           }
