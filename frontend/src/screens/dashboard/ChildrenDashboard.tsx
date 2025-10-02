@@ -61,7 +61,7 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
       try {
         console.log('=== CHILDREN DASHBOARD: Fetching data ===');
         
-        // Fetch modules from the modules API instead of lessons
+        // Fetch modules from the modules API
         try {
           console.log('=== CHILDREN DASHBOARD: Fetching modules ===');
           const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/children-modules', {
@@ -102,6 +102,29 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
           }
         } catch (error) {
           console.error('=== CHILDREN DASHBOARD: Modules API call failed:', error);
+        }
+        
+        // ALSO fetch lessons from lesson management system
+        try {
+          console.log('=== CHILDREN DASHBOARD: Fetching lessons from lesson management ===');
+          const lessonsResponse = await apiService.get('/lessons');
+          console.log('=== CHILDREN DASHBOARD: Lessons response:', lessonsResponse);
+          
+          if (lessonsResponse.success && lessonsResponse.data.lessons) {
+            console.log('=== CHILDREN DASHBOARD: Found lessons:', lessonsResponse.data.lessons.length);
+            console.log('=== CHILDREN DASHBOARD: First lesson:', lessonsResponse.data.lessons[0]);
+            
+            // Combine modules and lessons
+            const currentLessons = Array.isArray(lessons) ? lessons : [];
+            const newLessons = lessonsResponse.data.lessons;
+            const combinedLessons = [...currentLessons, ...newLessons];
+            
+            console.log('=== CHILDREN DASHBOARD: Combined lessons:', combinedLessons.length);
+            setLessons(combinedLessons);
+            console.log('=== CHILDREN DASHBOARD: Lessons from lesson management stored');
+          }
+        } catch (error) {
+          console.error('=== CHILDREN DASHBOARD: Lessons API call failed:', error);
         }
         
         // Call progress and achievements
