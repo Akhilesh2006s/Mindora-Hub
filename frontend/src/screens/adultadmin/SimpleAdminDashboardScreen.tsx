@@ -107,7 +107,7 @@ const AdultAdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({ naviga
       // Load adult admin specific data from new endpoint
       try {
         console.log('=== ADULT ADMIN DASHBOARD: Loading data ===');
-        const response = await fetch('http://192.168.1.18:5000/api/adult-admin/dashboard', {
+        const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-admin/dashboard', {
           headers: { 
             'Cache-Control': 'no-cache',
             'Authorization': `Bearer ${token}`
@@ -164,7 +164,7 @@ const AdultAdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({ naviga
       if (!token) return;
 
       console.log('=== ADULT ADMIN DASHBOARD: Loading activity ===');
-      const response = await fetch('http://192.168.1.18:5000/api/adult-admin/activity', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-admin/activity', {
         headers: { 
           'Cache-Control': 'no-cache',
           'Authorization': `Bearer ${token}`

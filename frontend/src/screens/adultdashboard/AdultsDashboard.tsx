@@ -64,7 +64,7 @@ const AdultsDashboard: React.FC<AdultsDashboardProps> = ({ navigation }) => {
         // Fetch modules from the modules API instead of lessons
         try {
           console.log('=== ADULTS DASHBOARD: Fetching modules ===');
-          const modulesResponse = await fetch('http://192.168.1.18:5000/api/adult-modules', {
+          const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-modules', {
             headers: { 'Cache-Control': 'no-cache' }
           });
           const modulesData = await modulesResponse.json();
@@ -141,7 +141,7 @@ const AdultsDashboard: React.FC<AdultsDashboardProps> = ({ navigation }) => {
           // Fetch modules from the modules API instead of lessons
           try {
             console.log('=== ADULTS DASHBOARD: Fetching modules (refresh) ===');
-            const modulesResponse = await fetch('http://192.168.1.18:5000/api/adult-modules', {
+            const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-modules', {
             headers: { 'Cache-Control': 'no-cache' }
           });
             const modulesData = await modulesResponse.json();

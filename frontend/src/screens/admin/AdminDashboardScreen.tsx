@@ -128,7 +128,7 @@ const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({ navigation 
         return;
       }
 
-      const response = await fetch('http://192.168.1.18:5000/api/admin/dashboard', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/admin/dashboard', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -153,7 +153,7 @@ const AdminDashboardScreen: React.FC<AdminDashboardScreenProps> = ({ navigation 
     try {
       const token = await AsyncStorage.getItem('authToken');
       if (token) {
-        const response = await fetch('http://192.168.1.18:5000/api/users/profile', {
+        const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/users/profile', {
           headers: {
             'Authorization': `Bearer ${token}`
           }

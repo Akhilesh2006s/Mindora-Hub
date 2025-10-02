@@ -103,16 +103,16 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
       
       // Load videos, questions, notes, and links for this topic
       const [videosRes, questionsRes, notesRes, linksRes] = await Promise.all([
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/videos`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/videos`, {
           headers: { 'Cache-Control': 'no-cache' }
         }),
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/questions`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/questions`, {
           headers: { 'Cache-Control': 'no-cache' }
         }),
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/notes`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/notes`, {
           headers: { 'Cache-Control': 'no-cache' }
         }),
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/links`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/links`, {
           headers: { 'Cache-Control': 'no-cache' }
         })
       ]);
@@ -166,7 +166,7 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
     const testVideo = {
       ...video,
       videoUrl: video.videoUrl.startsWith('/uploads/') 
-        ? `http://192.168.1.18:5000${video.videoUrl}`
+        ? `https://oyster-app-qlg6z.ondigitalocean.app${video.videoUrl}`
         : video.videoUrl
     };
     
@@ -201,7 +201,7 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
       let fullUrl = note.fileUrl;
       if (note.fileUrl.startsWith('/uploads/')) {
         // For local files, construct the full URL
-        fullUrl = `http://192.168.1.18:5000${note.fileUrl}`;
+        fullUrl = `https://oyster-app-qlg6z.ondigitalocean.app${note.fileUrl}`;
       }
       
       console.log('Opening PDF in-app:', fullUrl);
@@ -319,7 +319,7 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
                 _id: 'test-video',
                 title: 'Test Video (Sample)',
                 description: 'This is a sample video for testing',
-                videoUrl: 'http://192.168.1.18:5000/uploads/modules/module-video-1.mp4',
+                videoUrl: 'https://oyster-app-qlg6z.ondigitalocean.app/uploads/modules/module-video-1.mp4',
                 duration: 30,
                 isLocalFile: true
               };
@@ -558,7 +558,7 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
                 style={styles.videoPlayer}
                 source={{ 
                   uri: selectedVideo.videoUrl.startsWith('/uploads/') 
-                    ? `http://192.168.1.18:5000${selectedVideo.videoUrl}`
+                    ? `https://oyster-app-qlg6z.ondigitalocean.app${selectedVideo.videoUrl}`
                     : selectedVideo.videoUrl 
                 }}
                 useNativeControls
@@ -636,7 +636,7 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
                     onPress={async () => {
                       try {
                         const fullUrl = selectedPdf.fileUrl.startsWith('/uploads/') 
-                          ? `http://192.168.1.18:5000${selectedPdf.fileUrl}`
+                          ? `https://oyster-app-qlg6z.ondigitalocean.app${selectedPdf.fileUrl}`
                           : selectedPdf.fileUrl;
                         
                         const supported = await Linking.canOpenURL(fullUrl);
@@ -661,7 +661,7 @@ const TopicStudyScreen: React.FC<TopicStudyScreenProps> = ({ navigation, route }
                     onPress={async () => {
                       try {
                         const fullUrl = selectedPdf.fileUrl.startsWith('/uploads/') 
-                          ? `http://192.168.1.18:5000${selectedPdf.fileUrl}`
+                          ? `https://oyster-app-qlg6z.ondigitalocean.app${selectedPdf.fileUrl}`
                           : selectedPdf.fileUrl;
                         
                         const supported = await Linking.canOpenURL(fullUrl);

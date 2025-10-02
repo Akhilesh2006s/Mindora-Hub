@@ -5,12 +5,13 @@ import { ApiResponse, LoginCredentials, RegisterData, Module, Quiz, User, Notifi
 // API Configuration
 // For development, try different URLs for different environments
 const API_BASE_URL = __DEV__ 
-  ? 'http://192.168.1.18:5000/api'  // Your actual IP address for mobile
-  : 'https://your-production-api.com/api';
+  ? 'https://oyster-app-qlg6z.ondigitalocean.app/api'  // Your actual IP address for mobile
+  : 'https://oyster-app-qlg6z.ondigitalocean.app/api';
 
 // Fallback URLs for development - including localhost for web and IP for mobile
 const FALLBACK_URLS = [
-  'http://192.168.1.18:5000/api',     // Your actual IP address (primary)
+  'https://oyster-app-qlg6z.ondigitalocean.app/api',  // Production Digital Ocean
+  'https://oyster-app-qlg6z.ondigitalocean.app/api',     // Your actual IP address (primary)
   'http://localhost:5000/api',        // Local development server (web)
   'http://127.0.0.1:5000/api',        // Alternative localhost
   'http://172.19.109.137:5000/api',  // Previous IP address

@@ -64,7 +64,7 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
         // Fetch modules from the modules API instead of lessons
         try {
           console.log('=== CHILDREN DASHBOARD: Fetching modules ===');
-          const modulesResponse = await fetch('http://192.168.1.18:5000/api/children-modules', {
+          const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/children-modules', {
             headers: { 'Cache-Control': 'no-cache' }
           });
           const modulesData = await modulesResponse.json();
@@ -141,7 +141,7 @@ const ChildrenDashboard: React.FC<ChildrenDashboardProps> = ({ navigation }) => 
           // Fetch modules from the modules API instead of lessons
           try {
             console.log('=== CHILDREN DASHBOARD: Fetching modules (refresh) ===');
-            const modulesResponse = await fetch('http://192.168.1.18:5000/api/children-modules', {
+            const modulesResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/children-modules', {
             headers: { 'Cache-Control': 'no-cache' }
           });
             const modulesData = await modulesResponse.json();

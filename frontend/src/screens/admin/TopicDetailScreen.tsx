@@ -115,16 +115,16 @@ const TopicDetailScreen: React.FC<TopicDetailScreenProps> = ({ navigation, route
       console.log('=== TOPIC DETAIL: Loading content for topic ===', topicId);
       // Load videos, questions, notes, and links for this topic
       const [videosRes, questionsRes, notesRes, linksRes] = await Promise.all([
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/videos`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/videos`, {
           headers: { 'Cache-Control': 'no-cache' }
         }),
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/questions`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/questions`, {
           headers: { 'Cache-Control': 'no-cache' }
         }),
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/notes`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/notes`, {
           headers: { 'Cache-Control': 'no-cache' }
         }),
-        fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/links`, {
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/links`, {
           headers: { 'Cache-Control': 'no-cache' }
         })
       ]);
@@ -190,7 +190,7 @@ const TopicDetailScreen: React.FC<TopicDetailScreenProps> = ({ navigation, route
         file: file
       });
 
-      const response = await fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/videos`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/videos`, {
         method: 'POST',
         body: formData,
         // Don't set Content-Type header - let fetch set it automatically for multipart/form-data
@@ -235,7 +235,7 @@ const TopicDetailScreen: React.FC<TopicDetailScreenProps> = ({ navigation, route
         topicId,
       };
 
-      const response = await fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/questions`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/questions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -285,7 +285,7 @@ const TopicDetailScreen: React.FC<TopicDetailScreenProps> = ({ navigation, route
         file: file
       });
 
-      const response = await fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/notes`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/notes`, {
         method: 'POST',
         body: formData,
         // Don't set Content-Type header - let fetch set it automatically for multipart/form-data
@@ -326,7 +326,7 @@ const TopicDetailScreen: React.FC<TopicDetailScreenProps> = ({ navigation, route
         topicId,
       };
 
-      const response = await fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}/links`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}/links`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

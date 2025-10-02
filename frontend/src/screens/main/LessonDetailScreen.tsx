@@ -46,7 +46,7 @@ const LessonDetailScreen: React.FC<LessonDetailScreenProps> = ({ route }) => {
       console.log('=== LOADING LESSON DETAILS ===');
       console.log('Lesson ID:', lessonId);
 
-      const response = await fetch(`http://192.168.1.18:5000/api/lessons/${lessonId}`);
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/lessons/${lessonId}`);
       const data = await response.json();
 
       console.log('Lesson API response:', data);

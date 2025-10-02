@@ -98,7 +98,7 @@ const AdultAIFinanceManagementScreen: React.FC = () => {
       console.log('=== ADULT AI FINANCE MANAGEMENT: Loading modules ===');
       setLoading(true);
       
-      const response = await fetch('http://192.168.1.18:5000/api/adult-content?moduleType=ai,finance', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-content?moduleType=ai,finance', {
         headers: { 'Cache-Control': 'no-cache' }
       });
       const data = await response.json();
@@ -156,7 +156,7 @@ const AdultAIFinanceManagementScreen: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://192.168.1.18:5000/api/admin/modules', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/admin/modules', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -204,7 +204,7 @@ const AdultAIFinanceManagementScreen: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`http://192.168.1.18:5000/api/modules/${selectedModule._id}/topics`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${selectedModule._id}/topics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -244,7 +244,7 @@ const AdultAIFinanceManagementScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.18:5000/api/admin/modules/${moduleId}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/admin/modules/${moduleId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',
@@ -279,7 +279,7 @@ const AdultAIFinanceManagementScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',

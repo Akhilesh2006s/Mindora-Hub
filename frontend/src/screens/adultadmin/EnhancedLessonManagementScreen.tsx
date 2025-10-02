@@ -16,6 +16,7 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as DocumentPicker from 'expo-document-picker';
 import * as ImagePicker from 'expo-image-picker';
 import apiService from '../../services/api';
@@ -545,7 +546,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
     try {
       // First check if lessons already exist
       console.log('Checking existing lessons...');
-      const checkResponse = await fetch('http://192.168.1.18:5000/api/adult-lessons');
+      const checkResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons');
       if (checkResponse.ok) {
         const existingLessons = await checkResponse.json();
         if (existingLessons.length > 0) {
@@ -559,27 +560,16 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
       const lessonsData = getImportedLessons();
       console.log('Lessons data to save:', lessonsData.length);
       
-      const response = await fetch('http://192.168.1.18:5000/api/adult-lessons/save', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ lessons: lessonsData }),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
+      try {
+        const result = await apiService.post('/adult-lessons/save', { lessons: lessonsData });
         console.log('All lessons saved to backend successfully!', result.message);
+        
         // Reload lessons from backend
-        const reloadResponse = await fetch('http://192.168.1.18:5000/api/adult-lessons');
-        if (reloadResponse.ok) {
-          const data = await reloadResponse.json();
-          console.log('Reloaded lessons from backend:', data.length);
-          setLessons(data);
-        }
-      } else {
-        const errorText = await response.text();
-        console.error('Failed to save lessons to backend:', response.status, errorText);
+        const data = await apiService.get('/adult-lessons');
+        console.log('Reloaded lessons from backend:', data.data.lessons.length);
+        setLessons(data.data.lessons);
+      } catch (error) {
+        console.error('Failed to save lessons to backend:', error);
         // Fallback to local lessons
         const localLessons = importLessonsFromMainInterface();
         setLessons(localLessons);
@@ -606,7 +596,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
           onPress: async () => {
             try {
               // Delete from backend
-              const response = await fetch(`http://192.168.1.18:5000/api/adult-lessons/${lessonId}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons/${lessonId}`, {
                 method: 'DELETE',
               });
 
@@ -658,7 +648,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
 
       console.log('Sending lesson data:', lessonData);
 
-      const response = await fetch('http://192.168.1.18:5000/api/adult-lessons', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -702,7 +692,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
             text: 'Sync',
             onPress: async () => {
               try {
-                const response = await fetch('http://192.168.1.18:5000/api/adult-lessons/sync-to-modules', {
+                const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons/sync-to-modules', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -750,7 +740,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
     }
 
     try {
-      const response = await fetch(`http://192.168.1.18:5000/api/adult-lessons/${selectedLesson._id}/topics`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons/${selectedLesson._id}/topics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

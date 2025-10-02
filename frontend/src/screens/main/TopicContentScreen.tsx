@@ -163,8 +163,8 @@ const TopicContentScreen: React.FC<TopicContentScreenProps> = ({ route }) => {
 
       // Fetch videos and quizzes for this specific topic
       const [videosResponse, quizzesResponse] = await Promise.all([
-        fetch(`http://192.168.1.18:5000/api/video/module/${moduleId}`, { headers }),
-        fetch(`http://192.168.1.18:5000/api/quiz/module/${moduleId}`, { headers })
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/video/module/${moduleId}`, { headers }),
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/quiz/module/${moduleId}`, { headers })
       ]);
 
       if (videosResponse.ok) {
@@ -588,7 +588,7 @@ const TopicContentScreen: React.FC<TopicContentScreenProps> = ({ route }) => {
                   );
                 } else if (isLocalFile) {
                   // Local file URL - try to stream through backend
-                  const streamUrl = `http://192.168.1.18:5000/api/video/stream/${currentVideo._id}`;
+                  const streamUrl = `https://oyster-app-qlg6z.ondigitalocean.app/api/video/stream/${currentVideo._id}`;
                   
                   return (
                     <Video

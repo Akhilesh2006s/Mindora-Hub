@@ -104,8 +104,8 @@ export default function ModuleDetailScreen() {
 
       // Fetch videos and quizzes for this module
       const [videosResponse, quizzesResponse] = await Promise.all([
-        fetch(`http://192.168.1.18:5000/api/video/module/${moduleId}`, { headers }),
-        fetch(`http://192.168.1.18:5000/api/quiz/module/${moduleId}`, { headers })
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/video/module/${moduleId}`, { headers }),
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/quiz/module/${moduleId}`, { headers })
       ]);
 
       if (videosResponse.ok) {

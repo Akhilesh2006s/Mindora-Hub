@@ -108,7 +108,7 @@ const SoftSkillsManagementScreen: React.FC = () => {
   const loadModules = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://192.168.1.18:5000/api/modules?ageRange=6-15`);
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules?ageRange=6-15`);
       const data = await response.json();
       if (data.success) {
         // Filter for Soft Skills modules and map to expected format
@@ -182,7 +182,7 @@ const SoftSkillsManagementScreen: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`http://192.168.1.18:5000/api/modules/${selectedModule._id}/topics`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${selectedModule._id}/topics`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -217,7 +217,7 @@ const SoftSkillsManagementScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.18:5000/api/admin/modules/${module._id}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/admin/modules/${module._id}`, {
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Bearer ${await AsyncStorage.getItem('authToken')}`,
@@ -252,7 +252,7 @@ const SoftSkillsManagementScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.18:5000/api/modules/${moduleId}/topics/${topicId}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/modules/${moduleId}/topics/${topicId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',

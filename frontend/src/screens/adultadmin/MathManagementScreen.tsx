@@ -119,7 +119,7 @@ const MathManagementScreen: React.FC = () => {
         headers['Authorization'] = `Bearer ${token}`;
       }
       
-      const response = await fetch(`http://192.168.1.18:5000/api/adult-admin-content/math-logic`, {
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/adult-admin-content/math-logic`, {
         headers
       });
       const data = await response.json();
@@ -226,7 +226,7 @@ const MathManagementScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.18:5000/api/admin/modules/${module._id}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/admin/modules/${module._id}`, {
                 method: 'DELETE',
                 headers: {
                   'Authorization': `Bearer ${await AsyncStorage.getItem('authToken')}`,
@@ -261,7 +261,7 @@ const MathManagementScreen: React.FC = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              const response = await fetch(`http://192.168.1.18:5000/api/adult-modules/${moduleId}/topics/${topicId}`, {
+              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/adult-modules/${moduleId}/topics/${topicId}`, {
                 method: 'DELETE',
                 headers: {
                   'Content-Type': 'application/json',

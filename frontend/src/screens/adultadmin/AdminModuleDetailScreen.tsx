@@ -262,7 +262,7 @@ const AdminModuleDetailScreen: React.FC<AdminModuleDetailScreenProps> = ({ route
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-      const response = await fetch(`http://192.168.1.18:5000/api/video/module/${moduleId}`, { 
+      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/video/module/${moduleId}`, { 
         headers,
         signal: controller.signal 
       });
@@ -405,7 +405,7 @@ const AdminModuleDetailScreen: React.FC<AdminModuleDetailScreenProps> = ({ route
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second timeout for uploads
 
-      const response = await fetch('http://192.168.1.18:5000/api/video/upload', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/video/upload', {
         method: 'POST',
         headers: {
           ...(token && { 'Authorization': `Bearer ${token}` })
@@ -798,10 +798,10 @@ const AdminModuleDetailScreen: React.FC<AdminModuleDetailScreenProps> = ({ route
                     uri: currentVideo.videoUrl 
                       ? (currentVideo.videoUrl.startsWith('http') 
                           ? currentVideo.videoUrl 
-                          : `http://192.168.1.18:5000${currentVideo.videoUrl}`)
+                          : `https://oyster-app-qlg6z.ondigitalocean.app${currentVideo.videoUrl}`)
                       : (currentVideo.thumbnail?.startsWith('http') 
                           ? currentVideo.thumbnail 
-                          : `http://192.168.1.18:5000${currentVideo.thumbnail}`)
+                          : `https://oyster-app-qlg6z.ondigitalocean.app${currentVideo.thumbnail}`)
                   }}
                   useNativeControls
                   resizeMode={ResizeMode.CONTAIN}

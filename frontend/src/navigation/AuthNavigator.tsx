@@ -4,6 +4,8 @@ import { useTheme } from 'react-native-paper';
 
 import LoginScreen from '../screens/auth/LoginScreen';
 import RegisterScreen from '../screens/auth/RegisterScreen';
+import FastAuthScreen from '../screens/auth/FastAuthScreen';
+import WelcomeScreen from '../screens/auth/WelcomeScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 
 const Stack = createStackNavigator();
@@ -17,7 +19,18 @@ export default function AuthNavigator() {
         headerShown: false,
         cardStyle: { backgroundColor: theme.colors.background },
       }}
+      initialRouteName="Welcome"
     >
+      <Stack.Screen 
+        name="Welcome" 
+        component={WelcomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen 
+        name="FastAuth" 
+        component={FastAuthScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen 
         name="Login" 
         component={LoginScreen}

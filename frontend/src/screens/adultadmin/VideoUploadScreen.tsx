@@ -175,7 +175,7 @@ const VideoUploadScreen: React.FC = () => {
         } as any);
       }
 
-      const response = await fetch('http://192.168.1.18:5000/api/video/upload', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/video/upload', {
         method: 'POST',
         headers: {
           ...(token && { 'Authorization': `Bearer ${token}` })

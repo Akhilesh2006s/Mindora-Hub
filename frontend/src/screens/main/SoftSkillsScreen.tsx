@@ -34,7 +34,7 @@ export default function SoftSkillsScreen() {
         console.log('=== SOFT SKILLS SCREEN: Fetching Soft Skills modules ===');
         setLoadingModules(true);
         
-        const response = await fetch('http://192.168.1.18:5000/api/modules?ageRange=6-15', {
+        const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/modules?ageRange=6-15', {
           headers: { 'Cache-Control': 'no-cache' }
         });
         const data = await response.json();

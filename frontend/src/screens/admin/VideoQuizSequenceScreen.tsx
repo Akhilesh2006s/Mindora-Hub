@@ -81,8 +81,8 @@ const VideoQuizSequenceScreen: React.FC<VideoQuizSequenceScreenProps> = ({ route
       };
 
       const [videosResponse, quizzesResponse] = await Promise.all([
-        fetch(`http://192.168.1.18:5000/api/video/module/${moduleId}`, { headers }),
-        fetch(`http://192.168.1.18:5000/api/quiz/module/${moduleId}`, { headers })
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/video/module/${moduleId}`, { headers }),
+        fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/quiz/module/${moduleId}`, { headers })
       ]);
 
       if (videosResponse.ok) {
@@ -137,7 +137,7 @@ const VideoQuizSequenceScreen: React.FC<VideoQuizSequenceScreenProps> = ({ route
       };
 
       // Update video with associated quiz
-      const videoResponse = await fetch(`http://192.168.1.18:5000/api/video/${selectedVideo?._id}`, {
+      const videoResponse = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/video/${selectedVideo?._id}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify({
@@ -147,7 +147,7 @@ const VideoQuizSequenceScreen: React.FC<VideoQuizSequenceScreenProps> = ({ route
       });
 
       // Update quiz with associated video
-      const quizResponse = await fetch(`http://192.168.1.18:5000/api/quiz/${quiz._id}`, {
+      const quizResponse = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/quiz/${quiz._id}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify({
@@ -184,7 +184,7 @@ const VideoQuizSequenceScreen: React.FC<VideoQuizSequenceScreenProps> = ({ route
       
       if (associatedQuiz) {
         // Update quiz to remove association
-        await fetch(`http://192.168.1.18:5000/api/quiz/${associatedQuiz._id}`, {
+        await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/quiz/${associatedQuiz._id}`, {
           method: 'PUT',
           headers,
           body: JSON.stringify({
@@ -195,7 +195,7 @@ const VideoQuizSequenceScreen: React.FC<VideoQuizSequenceScreenProps> = ({ route
       }
 
       // Update video to remove association
-      await fetch(`http://192.168.1.18:5000/api/video/${video._id}`, {
+      await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/video/${video._id}`, {
         method: 'PUT',
         headers,
         body: JSON.stringify({
@@ -229,7 +229,7 @@ const VideoQuizSequenceScreen: React.FC<VideoQuizSequenceScreenProps> = ({ route
         ...(token && { 'Authorization': `Bearer ${token}` })
       };
 
-      const response = await fetch('http://192.168.1.18:5000/api/quiz', {
+      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/quiz', {
         method: 'POST',
         headers,
         body: JSON.stringify({

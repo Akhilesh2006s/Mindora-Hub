@@ -94,7 +94,7 @@ export default function ModulesScreen() {
       setLessonsLoading(true);
       
       // Load modules from the modules API instead of lessons
-      const lessonsResponse = await fetch('http://192.168.1.18:5000/api/modules?ageRange=6-15');
+      const lessonsResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/modules?ageRange=6-15');
       const lessonsData = await lessonsResponse.json();
       
       console.log('=== MODULES SCREEN: Modules response:', lessonsData);
