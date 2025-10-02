@@ -631,18 +631,57 @@ router.post('/:lessonId/topics/:topicId/videos', auth.authenticate, async (req, 
     
     const { title, description, url } = req.body;
     
-    // For now, just return success - you can implement video storage later
+    // Validate required fields
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: 'Video title is required'
+      });
+    }
+    
+    // Find the lesson
+    const lesson = await Lesson.findById(req.params.lessonId);
+    if (!lesson) {
+      return res.status(404).json({
+        success: false,
+        message: 'Lesson not found'
+      });
+    }
+    
+    // Find the topic
+    const topic = lesson.topics.find(t => t.id === req.params.topicId);
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        message: 'Topic not found'
+      });
+    }
+    
+    // Create new video object
+    const newVideo = {
+      id: Date.now(),
+      title: title.trim(),
+      description: description || '',
+      videoUrl: url || '',
+      duration: 0,
+      createdAt: new Date()
+    };
+    
+    // Add video to topic's videos array
+    if (!topic.videos) {
+      topic.videos = [];
+    }
+    topic.videos.push(newVideo);
+    
+    // Save the lesson
+    await lesson.save();
+    
+    console.log('✅ Video added successfully:', newVideo);
+    
     res.status(201).json({
       success: true,
       message: 'Video added to lesson topic successfully',
-      data: {
-        id: Date.now(), // Temporary ID
-        title,
-        description,
-        url,
-        lessonId: req.params.lessonId,
-        topicId: req.params.topicId
-      }
+      data: newVideo
     });
     
   } catch (error) {
@@ -667,17 +706,55 @@ router.post('/:lessonId/topics/:topicId/quizzes', auth.authenticate, async (req,
     
     const { title, questions } = req.body;
     
-    // For now, just return success - you can implement quiz storage later
+    // Validate required fields
+    if (!title) {
+      return res.status(400).json({
+        success: false,
+        message: 'Quiz title is required'
+      });
+    }
+    
+    // Find the lesson
+    const lesson = await Lesson.findById(req.params.lessonId);
+    if (!lesson) {
+      return res.status(404).json({
+        success: false,
+        message: 'Lesson not found'
+      });
+    }
+    
+    // Find the topic
+    const topic = lesson.topics.find(t => t.id === req.params.topicId);
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        message: 'Topic not found'
+      });
+    }
+    
+    // Create new quiz object
+    const newQuiz = {
+      id: Date.now(),
+      title: title.trim(),
+      questions: questions || [],
+      createdAt: new Date()
+    };
+    
+    // Add quiz to topic's quizzes array
+    if (!topic.quizzes) {
+      topic.quizzes = [];
+    }
+    topic.quizzes.push(newQuiz);
+    
+    // Save the lesson
+    await lesson.save();
+    
+    console.log('✅ Quiz added successfully:', newQuiz);
+    
     res.status(201).json({
       success: true,
       message: 'Quiz added to lesson topic successfully',
-      data: {
-        id: Date.now(), // Temporary ID
-        title,
-        questions,
-        lessonId: req.params.lessonId,
-        topicId: req.params.topicId
-      }
+      data: newQuiz
     });
     
   } catch (error) {
