@@ -29,8 +29,11 @@ const lessonSchema = new mongoose.Schema({
     enum: ['6-15', '16+']
   },
   topics: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Topic'
+    id: { type: Number },
+    title: { type: String },
+    description: { type: String },
+    order: { type: Number },
+    createdAt: { type: Date, default: Date.now }
   }],
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,

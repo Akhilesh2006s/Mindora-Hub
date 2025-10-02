@@ -390,17 +390,40 @@ router.post('/:lessonId/topics', auth.authenticate, async (req, res) => {
       });
     }
     
-    // For now, just return success - you can implement topic storage later
+    // Find the lesson and add the topic
+    const lesson = await Lesson.findById(req.params.lessonId);
+    
+    if (!lesson) {
+      return res.status(404).json({
+        success: false,
+        message: 'Lesson not found'
+      });
+    }
+    
+    // Create topic object
+    const newTopic = {
+      id: Date.now(), // Temporary ID for now
+      title,
+      description: description || '',
+      order: order || (lesson.topics ? lesson.topics.length + 1 : 1),
+      createdAt: new Date()
+    };
+    
+    // Add topic to lesson (for now, we'll store it in a topics array field)
+    if (!lesson.topics) {
+      lesson.topics = [];
+    }
+    lesson.topics.push(newTopic);
+    
+    // Save the updated lesson
+    await lesson.save();
+    
+    console.log('✅ Topic added to lesson:', newTopic.title);
+    
     res.status(201).json({
       success: true,
       message: 'Topic added to lesson successfully',
-      data: {
-        id: Date.now(), // Temporary ID
-        title,
-        description,
-        order: order || 1,
-        lessonId: req.params.lessonId
-      }
+      data: newTopic
     });
     
   } catch (error) {
