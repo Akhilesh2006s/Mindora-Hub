@@ -648,28 +648,24 @@ router.post('/:lessonId/topics/:topicId/videos', auth.authenticate, async (req, 
       });
     }
     
-    // Find the topic (convert topicId to number for comparison)
-    const topicId = parseInt(req.params.topicId);
-    console.log('🔍 VIDEO: Looking for topic with ID:', topicId);
-    console.log('🔍 VIDEO: Topic ID type:', typeof topicId);
-    console.log('🔍 VIDEO: Lesson topics count:', lesson.topics ? lesson.topics.length : 0);
-    console.log('🔍 VIDEO: All topics:', lesson.topics);
+    // Find the topic (try both string and number comparison)
+    const topicId = req.params.topicId;
+    const topicIdNum = parseInt(topicId);
+    console.log('🔍 Looking for topic ID:', topicId, '(as string)');
+    console.log('🔍 Looking for topic ID:', topicIdNum, '(as number)');
+    console.log('🔍 Available topics:', lesson.topics.map(t => ({ id: t.id, idType: typeof t.id, title: t.title })));
     
-    const topic = lesson.topics.find(t => {
-      console.log('🔍 VIDEO: Checking topic:', { id: t.id, title: t.title, idType: typeof t.id });
-      return t.id === topicId;
-    });
-    
+    const topic = lesson.topics.find(t => t.id === topicId || t.id === topicIdNum || t.id === topicId.toString());
     if (!topic) {
-      console.log('❌ VIDEO: Topic not found. Looking for ID:', topicId);
-      console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title, idType: typeof t.id })));
+      console.log('❌ Topic not found. Looking for ID:', topicId);
+      console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title })));
       return res.status(404).json({
         success: false,
         message: 'Topic not found'
       });
     }
     
-    console.log('✅ VIDEO: Topic found:', topic.title);
+    console.log('✅ Topic found:', topic.title);
     
     // Create new video object
     const newVideo = {
@@ -742,28 +738,24 @@ router.post('/:lessonId/topics/:topicId/quizzes', auth.authenticate, async (req,
       });
     }
     
-    // Find the topic (convert topicId to number for comparison)
-    const topicId = parseInt(req.params.topicId);
-    console.log('🔍 QUIZ: Looking for topic with ID:', topicId);
-    console.log('🔍 QUIZ: Topic ID type:', typeof topicId);
-    console.log('🔍 QUIZ: Lesson topics count:', lesson.topics ? lesson.topics.length : 0);
-    console.log('🔍 QUIZ: All topics:', lesson.topics);
+    // Find the topic (try both string and number comparison)
+    const topicId = req.params.topicId;
+    const topicIdNum = parseInt(topicId);
+    console.log('🔍 Looking for topic ID:', topicId, '(as string)');
+    console.log('🔍 Looking for topic ID:', topicIdNum, '(as number)');
+    console.log('🔍 Available topics:', lesson.topics.map(t => ({ id: t.id, idType: typeof t.id, title: t.title })));
     
-    const topic = lesson.topics.find(t => {
-      console.log('🔍 QUIZ: Checking topic:', { id: t.id, title: t.title, idType: typeof t.id });
-      return t.id === topicId;
-    });
-    
+    const topic = lesson.topics.find(t => t.id === topicId || t.id === topicIdNum || t.id === topicId.toString());
     if (!topic) {
-      console.log('❌ QUIZ: Topic not found. Looking for ID:', topicId);
-      console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title, idType: typeof t.id })));
+      console.log('❌ Topic not found. Looking for ID:', topicId);
+      console.log('Available topics:', lesson.topics.map(t => ({ id: t.id, title: t.title })));
       return res.status(404).json({
         success: false,
         message: 'Topic not found'
       });
     }
     
-    console.log('✅ QUIZ: Topic found:', topic.title);
+    console.log('✅ Topic found:', topic.title);
     
     // Create new quiz object
     const newQuiz = {
