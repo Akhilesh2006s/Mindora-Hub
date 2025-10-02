@@ -765,7 +765,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
 
     try {
       console.log('Creating video with API service...');
-      const newVideoData = await apiService.post(`/lessons/${selectedLesson?._id}/topics/${selectedTopic._id}/videos`, {
+      const newVideoData = await apiService.post(`/lessons/${selectedLesson?._id}/topics/${selectedTopic.id}/videos`, {
         title: newVideo.title,
         description: newVideo.description,
         url: newVideo.file ? newVideo.file.uri : newVideo.url,
@@ -782,7 +782,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
               ? {
                   ...lesson,
                   topics: (lesson.topics || []).map(topic =>
-                    topic._id === selectedTopic._id
+                    topic.id === selectedTopic.id
                       ? { ...topic, videos: [...(topic.videos || []), newVideoData] }
                       : topic
                   )
@@ -863,8 +863,8 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
 
     try {
       console.log('Creating quiz with API service...');
-      console.log('🔍 API URL will be:', `/lessons/${selectedLesson._id}/topics/${selectedTopic._id}/quizzes`);
-      const newQuizData = await apiService.post(`/lessons/${selectedLesson._id}/topics/${selectedTopic._id}/quizzes`, {
+      console.log('🔍 API URL will be:', `/lessons/${selectedLesson._id}/topics/${selectedTopic.id}/quizzes`);
+      const newQuizData = await apiService.post(`/lessons/${selectedLesson._id}/topics/${selectedTopic.id}/quizzes`, {
         title: newQuiz.title,
         questions: validQuestions
       });
@@ -877,7 +877,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
             ? {
                 ...lesson,
                 topics: (lesson.topics || []).map(topic =>
-                  topic._id === selectedTopic._id
+                  topic.id === selectedTopic.id
                     ? { ...topic, quizzes: [...(topic.quizzes || []), newQuizData] }
                     : topic
                 )

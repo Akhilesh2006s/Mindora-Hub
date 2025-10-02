@@ -765,7 +765,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
 
     try {
       console.log('Creating video with API service...');
-      const newVideoData = await apiService.post(`/lessons/${selectedLesson?._id}/topics/${selectedTopic._id}/videos`, {
+      const newVideoData = await apiService.post(`/lessons/${selectedLesson?._id}/topics/${selectedTopic.id}/videos`, {
         title: newVideo.title,
         description: newVideo.description,
         url: newVideo.file ? newVideo.file.uri : newVideo.url,
@@ -782,7 +782,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
               ? {
                   ...lesson,
                   topics: (lesson.topics || []).map(topic =>
-                    topic._id === selectedTopic._id
+                    topic.id === selectedTopic.id
                       ? { ...topic, videos: [...(topic.videos || []), newVideoData] }
                       : topic
                   )
@@ -841,7 +841,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
     console.log('🔍 Debug - selectedLesson:', selectedLesson);
     console.log('🔍 Debug - selectedTopic:', selectedTopic);
     console.log('🔍 Debug - selectedLesson._id:', selectedLesson?._id);
-    console.log('🔍 Debug - selectedTopic._id:', selectedTopic?._id);
+    console.log('🔍 Debug - selectedTopic.id:', selectedTopic?.id);
     
     if (!selectedTopic || !newQuiz.title.trim()) {
       Alert.alert('Error', 'Please enter a quiz title');
@@ -863,8 +863,8 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
 
     try {
       console.log('Creating quiz with API service...');
-      console.log('🔍 API URL will be:', `/lessons/${selectedLesson._id}/topics/${selectedTopic._id}/quizzes`);
-      const newQuizData = await apiService.post(`/lessons/${selectedLesson._id}/topics/${selectedTopic._id}/quizzes`, {
+      console.log('🔍 API URL will be:', `/lessons/${selectedLesson._id}/topics/${selectedTopic.id}/quizzes`);
+      const newQuizData = await apiService.post(`/lessons/${selectedLesson._id}/topics/${selectedTopic.id}/quizzes`, {
         title: newQuiz.title,
         questions: validQuestions
       });
@@ -877,7 +877,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
             ? {
                 ...lesson,
                 topics: (lesson.topics || []).map(topic =>
-                  topic._id === selectedTopic._id
+                  topic.id === selectedTopic.id
                     ? { ...topic, quizzes: [...(topic.quizzes || []), newQuizData] }
                     : topic
                 )
@@ -1068,7 +1068,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
                     console.log('🔍 Setting selectedLesson from topic list:', item);
                     console.log('🔍 selectedLesson._id:', item?._id);
                     console.log('🔍 Setting selectedTopic from topic list:', topic);
-                    console.log('🔍 selectedTopic._id:', topic?._id);
+                    console.log('🔍 selectedTopic.id:', topic?.id);
                     console.log('🔍 selectedTopic.title:', topic?.title);
                     setSelectedLesson(item);
                     setSelectedTopic(topic);
@@ -1589,7 +1589,7 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
             {console.log('🔍 Quiz Modal - selectedLesson:', selectedLesson)}
             {console.log('🔍 Quiz Modal - selectedLesson._id:', selectedLesson?._id)}
             {console.log('🔍 Quiz Modal - selectedTopic:', selectedTopic)}
-            {console.log('🔍 Quiz Modal - selectedTopic._id:', selectedTopic?._id)}
+            {console.log('🔍 Quiz Modal - selectedTopic.id:', selectedTopic?.id)}
             {console.log('🔍 Quiz Modal - selectedTopic.title:', selectedTopic?.title)}
             
             <ScrollView 
