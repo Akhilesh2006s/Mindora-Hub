@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import apiService from '../../services/api';
 
 interface LessonDetailScreenProps {
   route: {
@@ -46,13 +47,11 @@ const LessonDetailScreen: React.FC<LessonDetailScreenProps> = ({ route }) => {
       console.log('=== LOADING LESSON DETAILS ===');
       console.log('Lesson ID:', lessonId);
 
-      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/lessons/${lessonId}`);
-      const data = await response.json();
+      const response = await apiService.get(`/lessons/${lessonId}`);
+      console.log('Lesson API response:', response);
 
-      console.log('Lesson API response:', data);
-
-      if (data.success && data.data && data.data.lesson) {
-        setTopics(data.data.lesson.topics || []);
+      if (response.success && response.data && response.data.lesson) {
+        setTopics(response.data.lesson.topics || []);
       } else {
         Alert.alert('Error', 'Failed to load lesson details');
       }

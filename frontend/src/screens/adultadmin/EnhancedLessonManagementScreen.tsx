@@ -546,14 +546,15 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
     try {
       // First check if lessons already exist
       console.log('Checking existing lessons...');
-      const checkResponse = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons');
-      if (checkResponse.ok) {
-        const existingLessons = await checkResponse.json();
-        if (existingLessons.length > 0) {
-          console.log('Lessons already exist in database:', existingLessons.length);
-          setLessons(existingLessons);
+      try {
+        const existingLessons = await apiService.get('/adult-lessons');
+        if (existingLessons.data.lessons && existingLessons.data.lessons.length > 0) {
+          console.log('Lessons already exist in database:', existingLessons.data.lessons.length);
+          setLessons(existingLessons.data.lessons);
           return;
         }
+      } catch (error) {
+        console.log('No existing lessons found, will create new ones');
       }
 
       console.log('Saving all lessons to backend...');
@@ -596,11 +597,9 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
           onPress: async () => {
             try {
               // Delete from backend
-              const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons/${lessonId}`, {
-                method: 'DELETE',
-              });
+              const response = await apiService.delete(`/adult-lessons/${lessonId}`);
 
-              if (response.ok) {
+              if (response.success) {
                 // Remove from local state
                 setLessons(prev => {
                   if (!Array.isArray(prev)) return prev;
@@ -648,16 +647,10 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
 
       console.log('Sending lesson data:', lessonData);
 
-      const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(lessonData),
-      });
+      const response = await apiService.post('/adult-lessons', lessonData);
 
-      if (response.ok) {
-        const newLessonData = await response.json();
+      if (response.success) {
+        const newLessonData = response.data;
         setLessons(prev => [...prev, newLessonData]);
         setNewLesson({
           title: '',
@@ -692,15 +685,10 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
             text: 'Sync',
             onPress: async () => {
               try {
-                const response = await fetch('https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons/sync-to-modules', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                });
+                const response = await apiService.post('/adult-lessons/sync-to-modules', {});
 
-                if (response.ok) {
-                  const result = await response.json();
+                if (response.success) {
+                  const result = response;
                   Alert.alert(
                     'Sync Successful!',
                     `Synced ${result.data.syncedModules} modules, ${result.data.syncedVideos} videos, and ${result.data.syncedQuizzes} quizzes.\n\nYour modules are now available in the main app!`,
@@ -740,20 +728,14 @@ const EnhancedLessonManagementScreen: React.FC<EnhancedLessonManagementScreenPro
     }
 
     try {
-      const response = await fetch(`https://oyster-app-qlg6z.ondigitalocean.app/api/adult-lessons/${selectedLesson._id}/topics`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: newTopic.title,
-          description: newTopic.description,
-          order: selectedLesson.topics.length + 1
-        }),
+      const response = await apiService.post(`/adult-lessons/${selectedLesson._id}/topics`, {
+        title: newTopic.title,
+        description: newTopic.description,
+        order: selectedLesson.topics.length + 1
       });
 
-      if (response.ok) {
-        const newTopicData = await response.json();
+      if (response.success) {
+        const newTopicData = response.data;
         setLessons(prev => {
           if (!Array.isArray(prev)) return prev;
           return prev.map(lesson => 
